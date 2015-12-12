@@ -9,12 +9,20 @@
     "watch": "babel src --out-dir dist --watch",
     "docs": "jsdoc -d docs -c .jsdoc.conf -t ./node_modules/ink-docstrap/template -R README.md"
   },
-  "author": "",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/Dragory/telegram-bot-api"
+  },
+  "bugs": {
+      "url": "https://github.com/Dragory/telegram-bot-api/issues",
+      "email": "contact@mivir.fi"
+  },
+  "author": "Miikka Virtanen <contact@mivir.fi>",
   "license": "LGPL-2.1",
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",
     "jaguarjs-jsdoc": "0.0.1",
-    "docstrap": "git://github.com/Dragory/docstrap.git#master"
+    "ink-docstrap": "git://github.com/Dragory/docstrap.git#master"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
