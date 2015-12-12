@@ -7208,9 +7208,9 @@ footer {
   padding-top: 15px;
 }
 code {
-  background-color: none;
+  background-color: #eee;
   border: none;
-  color: orange;
+  color: #06F;
 }
 .buffered-name {
   padding-top: 62px;
@@ -7264,6 +7264,5 @@ code {
 }
 
 td.name code {
-    color: #06F;
     background-color: transparent;
 }

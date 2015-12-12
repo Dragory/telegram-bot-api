@@ -1,13 +1,13 @@
 {
-  "name": "telegram-bot-api",
+  "name": "mivir-telegram-bot-api",
   "version": "0.0.1",
-  "description": "An abstraction for the Telegram bot API",
+  "description": "An abstraction for the Telegram Bot API",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src --out-dir dist",
     "watch": "babel src --out-dir dist --watch",
-    "docs": "jsdoc -d docs -c .jsdoc.conf -t ./node_modules/ink-docstrap/template"
+    "docs": "jsdoc -d gh-pages -c .jsdoc.conf -t ./node_modules/ink-docstrap/template -R README.md"
   },
   "author": "",
   "license": "LGPL-2.1",

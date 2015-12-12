@@ -273,6 +273,9 @@ class Bot {
      *
      * * **optional** Whether the parameter is optional or not; defaults to *false*
      * * **stripQuotes** Whether to strip wrapping quotes from parameters; defaults to *true*
+     *
+     * Parameters are matched as both `triggerSymbol+cmd` and `triggerSymbol+cmd@botUsername`.
+     * For example, both of these will match: `/getLocation London` or `/getLocation@myBot London`
      * @param {Function} cb            Listener to call when the command matches
      * @return {void}
      */
