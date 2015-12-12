@@ -5,7 +5,7 @@ const MATCH_REST = `\\s+(.*)`;
 
 function matchRaw(str, cmd, params, username) {
 	// The command itself
-	let regexStr = `^${cmd}(?:@${username})?`;
+	let regexStr = `^(${cmd})(?:@${username})?`;
 
 	// Specified params
 	params.forEach((str) => {
@@ -44,6 +44,12 @@ function match() {
         cmd = args[1];
         params = args[2];
         username = args[3];
+
+		if (typeof params === 'string') {
+			triggerSymbol = args[1];
+			cmd = args[2];
+			params = [];
+		}
     } else if (args.length === 5) {
         str = args[0];
         triggerSymbol = args[1];
@@ -51,13 +57,11 @@ function match() {
         params = args[3];
         username = args[4];
     } else {
-        console.log('[AAAA] err');
         throw new Error("[Bot::onCommand] 3-5 parameters required");
     }
 
     cmd = triggerSymbol + cmd;
 
-    console.log('startsWith:', typeof String.prototype.startsWith);
     if (! str.startsWith(triggerSymbol)) return null;
 
     let paramNames = [];
@@ -88,7 +92,6 @@ function match() {
     let match;
 
     match = matchRaw(str, cmd, params, username);
-    console.log('match (' + cmd + '):', match);
 
     if (! match) {
         // If there was no match but there are optional parameters, start removing one optional parameter
@@ -120,6 +123,9 @@ function match() {
 
     if (! match) return null;
 
+	let matchedCommand = match[0];
+	match = match.slice(1);
+
     if (paramNames.length) {
         // Strip quotes
         match = match.map((str, i) => {
@@ -143,6 +149,8 @@ function match() {
 
         match = matchedNames;
     }
+
+	match._cmd = matchedCommand;
 
     return match;
 }
