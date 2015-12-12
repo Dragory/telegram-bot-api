@@ -51,9 +51,9 @@ myBot.onCommand('random', [
     done();
 });
 
-// Respond to /whereis <location> by sending coordinates
+// Respond to !whereis <location> by sending coordinates
 // that show up as a map to Telegram users
-myBot.onCommand('whereis', [param.STRING], function(bot, message, params, next, done) {
+myBot.onCommand('!', 'whereis', [param.STRING], function(bot, message, params, next, done) {
     var location = params[0],
         coords = null;
 
@@ -74,4 +74,5 @@ myBot.onCommand('whereis', [param.STRING], function(bot, message, params, next, 
 ## Full API documentation
 
 For full API documentation (generated with JSDOC), see the following URL:
-https://Dragory.github.io/telegram-bot-api
+
+### [https://dragory.github.io/telegram-bot-api/Bot.html](https://dragory.github.io/telegram-bot-api/Bot.html)
