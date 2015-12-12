@@ -1,7 +1,7 @@
 {
   "name": "mivir-telegram-bot-api",
   "version": "0.0.1",
-  "description": "An abstraction for the Telegram Bot API",
+  "description": "A simple abstraction for the Telegram Bot API with a powerful command interpreter",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
