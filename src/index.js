@@ -299,6 +299,29 @@ class Bot {
         });
     }
 
+    /**
+     * Returns information about the bot user
+     *
+     * **Note**: this is already available via the `info` class property
+     *
+     * **More info:** [https://core.telegram.org/bots/api#getme](https://core.telegram.org/bots/api#getme)
+     *
+     * @return {Promise} A promise that resolves with the result once the API request has finished
+     */
+    getMe() {
+        return this.apiRequest('getMe');
+    }
+
+    /**
+     * Sends a message to the specified chat
+     *
+     * **More info:** [https://core.telegram.org/bots/api#sendmessage](https://core.telegram.org/bots/api#sendmessage)
+     *
+     * @param  {Number} chatId ID of the target chat
+     * @param  {String} str    Message text
+     * @param  {Array}  params (Optional) Additional params to supply to the request
+     * @return {Promise}       A promise that resolves with the result once the API request has finished
+     */
     sendMessage(chatId, str, params = {}) {
         params.chat_id = chatId;
         params.text = str;
@@ -306,6 +329,16 @@ class Bot {
         return this.apiRequest('sendMessage', params);
     }
 
+    /**
+     * Forwards the specified message ID
+     *
+     * **More info:** [https://core.telegram.org/bots/api#forwardmessage](https://core.telegram.org/bots/api#forwardmessage)
+     *
+     * @param  {Number} chatId     ID of the target chat
+     * @param  {Number} fromChatId ID of the original chat
+     * @param  {Number} messageId  ID of the message to forward
+     * @return {Promise}           A promise that resolves with the result once the API request has finished
+     */
     forwardMessage(chatId, fromChatId, messageId) {
         return this.apiRequest('forwardMessage', {
             chat_id: chatId,
@@ -318,9 +351,9 @@ class Bot {
      * Sends a photo to the specified chat
      *
      * For uploading a photo, see allowed parameters here:
-     * https://github.com/request/request#multipartform-data-multipart-form-uploads
+     * [https://github.com/request/request#multipartform-data-multipart-form-uploads](https://github.com/request/request#multipartform-data-multipart-form-uploads)
      *
-     * More info: https://core.telegram.org/bots/api#sendphoto
+     * **More info:** [https://core.telegram.org/bots/api#sendphoto](https://core.telegram.org/bots/api#sendphoto)
      *
      * @method Bot#sendPhoto
      * @param  {Number} chatId ID of the target chat
@@ -348,9 +381,9 @@ class Bot {
      * Sends audio to the specified chat
      *
      * For uploading an audio file, see allowed parameters here:
-     * https://github.com/request/request#multipartform-data-multipart-form-uploads
+     * [https://github.com/request/request#multipartform-data-multipart-form-uploads](https://github.com/request/request#multipartform-data-multipart-form-uploads)
      *
-     * More info: https://core.telegram.org/bots/api#sendaudio
+     * **More info:** [https://core.telegram.org/bots/api#sendaudio](https://core.telegram.org/bots/api#sendaudio)
      *
      * @method Bot#sendAudio
      * @param  {Number} chatId ID of the target chat
@@ -378,9 +411,9 @@ class Bot {
      * Sends a document to the specified chat
      *
      * For uploading a document file, see allowed parameters here:
-     * https://github.com/request/request#multipartform-data-multipart-form-uploads
+     * [https://github.com/request/request#multipartform-data-multipart-form-uploads](https://github.com/request/request#multipartform-data-multipart-form-uploads)
      *
-     * More info: https://core.telegram.org/bots/api#senddocument
+     * **More info:** [https://core.telegram.org/bots/api#senddocument](https://core.telegram.org/bots/api#senddocument)
      *
      * @method Bot#sendDocument
      * @param  {Number} chatId   ID of the target chat
@@ -408,9 +441,9 @@ class Bot {
      * Sends a sticker to the specified chat
      *
      * For uploading a sticker (image file), see allowed parameters here:
-     * https://github.com/request/request#multipartform-data-multipart-form-uploads
+     * [https://github.com/request/request#multipartform-data-multipart-form-uploads](https://github.com/request/request#multipartform-data-multipart-form-uploads)
      *
-     * More info: https://core.telegram.org/bots/api#sendsticker
+     * **More info:** [https://core.telegram.org/bots/api#sendsticker](https://core.telegram.org/bots/api#sendsticker)
      *
      * @method Bot#sendSticker
      * @param  {Number} chatId  ID of the target chat
@@ -438,9 +471,9 @@ class Bot {
      * Sends a video to the specified chat
      *
      * For uploading a video file, see allowed parameters here:
-     * https://github.com/request/request#multipartform-data-multipart-form-uploads
+     * [https://github.com/request/request#multipartform-data-multipart-form-uploads](https://github.com/request/request#multipartform-data-multipart-form-uploads)
      *
-     * More info: https://core.telegram.org/bots/api#sendvideo
+     * **More info:** [https://core.telegram.org/bots/api#sendvideo](https://core.telegram.org/bots/api#sendvideo)
      *
      * @method Bot#sendVideo
      * @param  {Number} chatId ID of the target chat
@@ -468,9 +501,9 @@ class Bot {
      * Sends a voice recording to the specified chat
      *
      * For uploading a voice recording (an audio file), see allowed parameters here:
-     * https://github.com/request/request#multipartform-data-multipart-form-uploads
+     * [https://github.com/request/request#multipartform-data-multipart-form-uploads](https://github.com/request/request#multipartform-data-multipart-form-uploads)
      *
-     * More info: https://core.telegram.org/bots/api#sendvoice
+     * **More info:** [https://core.telegram.org/bots/api#sendvoice](https://core.telegram.org/bots/api#sendvoice)
      *
      * @method Bot#sendVoice
      * @param  {Number} chatId ID of the target chat
@@ -497,7 +530,7 @@ class Bot {
     /**
      * Sends a location to the specified chat
      *
-     * More info: https://core.telegram.org/bots/api#sendlocation
+     * **More info:** [https://core.telegram.org/bots/api#sendlocation](https://core.telegram.org/bots/api#sendlocation)
      *
      * @method Bot#sendLocation
      * @param  {Number}        chatId ID of the target chat
@@ -520,7 +553,7 @@ class Bot {
     /**
      * Sends a chat action to the specified chat
      *
-     * More info: https://core.telegram.org/bots/api#sendchataction
+     * **More info:** [https://core.telegram.org/bots/api#sendchataction](https://core.telegram.org/bots/api#sendchataction)
      *
      * @method Bot#sendAction
      * @param  {Number} chatId ID of the target chat
@@ -541,7 +574,7 @@ class Bot {
     /**
      * Returns a list of profile photos for the specified user
      *
-     * More info: https://core.telegram.org/bots/api#getuserprofilephotos
+     * **More info:** [https://core.telegram.org/bots/api#getuserprofilephotos](https://core.telegram.org/bots/api#getuserprofilephotos)
      *
      * @method Bot#getUserProfilePhotos
      * @param  {Number} userId ID of the user
@@ -554,12 +587,13 @@ class Bot {
 
     /**
      * Sets an HTTPS URL where Telegram will send updates
-     * Note: this WILL disable all updates/messages from the API
+     *
+     * **Note:** this WILL disable all updates/messages from the API
      *
      * For uploading the certificate, see allowed parameters here:
-     * https://github.com/request/request#multipartform-data-multipart-form-uploads
+     * [https://github.com/request/request#multipartform-data-multipart-form-uploads](https://github.com/request/request#multipartform-data-multipart-form-uploads)
      *
-     * More info: https://core.telegram.org/bots/api#setwebhook
+     * **More info:** [https://core.telegram.org/bots/api#setwebhook](https://core.telegram.org/bots/api#setwebhook)
      *
      * @method Bot#setWebhook
      * @param  {String} url         HTTPS url to send updates to
@@ -576,7 +610,7 @@ class Bot {
     /**
      * Returns information about the specified file ID
      *
-     * More info: https://core.telegram.org/bots/api#getfile
+     * **More info:** [https://core.telegram.org/bots/api#getfile](https://core.telegram.org/bots/api#getfile)
      *
      * @method Bot#getFile
      * @param  {Number} fileId ID of the file
