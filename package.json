@@ -1,6 +1,6 @@
 {
   "name": "mivir-telegram-bot-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple abstraction for the Telegram Bot API with a powerful command interpreter",
   "main": "dist/index.js",
   "scripts": {
@@ -10,12 +10,12 @@
     "docs": "jsdoc -d docs -c .jsdoc.conf -t ./node_modules/ink-docstrap/template -R README.md"
   },
   "repository": {
-      "type": "git",
-      "url": "https://github.com/Dragory/telegram-bot-api"
+    "type": "git",
+    "url": "https://github.com/Dragory/telegram-bot-api"
   },
   "bugs": {
-      "url": "https://github.com/Dragory/telegram-bot-api/issues",
-      "email": "contact@mivir.fi"
+    "url": "https://github.com/Dragory/telegram-bot-api/issues",
+    "email": "contact@mivir.fi"
   },
   "author": "Miikka Virtanen <contact@mivir.fi>",
   "license": "LGPL-2.1",
