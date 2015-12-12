@@ -749,6 +749,207 @@
             
 <hr>
 <dt>
+    <h4 class="name" id="forwardMessage"><span class="type-signature"></span>forwardMessage(chatId, fromChatId, messageId)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Forwards the specified message ID</p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#forwardmessage">https://core.telegram.org/bots/api#forwardmessage</a></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>chatId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID of the target chat</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fromChatId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID of the original chat</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>messageId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID of the message to forward</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A promise that resolves with the result once the API request has finished</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
     <h4 class="name" id="getFile"><span class="type-signature"></span>getFile(fileId)</h4>
     
     
@@ -758,7 +959,7 @@
     
     <div class="description">
         <p>Returns information about the specified file ID</p>
-<p>More info: https://core.telegram.org/bots/api#getfile</p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#getfile">https://core.telegram.org/bots/api#getfile</a></p>
     </div>
     
 
@@ -902,6 +1103,110 @@
             
 <hr>
 <dt>
+    <h4 class="name" id="getMe"><span class="type-signature"></span>getMe()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns information about the bot user</p>
+<p><strong>Note</strong>: this is already available via the <code>info</code> class property</p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#getme">https://core.telegram.org/bots/api#getme</a></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A promise that resolves with the result once the API request has finished</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
     <h4 class="name" id="getUserProfilePhotos"><span class="type-signature"></span>getUserProfilePhotos(userId)</h4>
     
     
@@ -911,7 +1216,7 @@
     
     <div class="description">
         <p>Returns a list of profile photos for the specified user</p>
-<p>More info: https://core.telegram.org/bots/api#getuserprofilephotos</p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#getuserprofilephotos">https://core.telegram.org/bots/api#getuserprofilephotos</a></p>
     </div>
     
 
@@ -1469,7 +1774,7 @@ For example, both of these will match: <code>/getLocation London</code> or <code
     
     <div class="description">
         <p>Sends a chat action to the specified chat</p>
-<p>More info: https://core.telegram.org/bots/api#sendchataction</p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#sendchataction">https://core.telegram.org/bots/api#sendchataction</a></p>
     </div>
     
 
@@ -1647,8 +1952,8 @@ For example, both of these will match: <code>/getLocation London</code> or <code
     <div class="description">
         <p>Sends audio to the specified chat</p>
 <p>For uploading an audio file, see allowed parameters here:
-https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
-<p>More info: https://core.telegram.org/bots/api#sendaudio</p>
+<a href="https://github.com/request/request#multipartform-data-multipart-form-uploads">https://github.com/request/request#multipartform-data-multipart-form-uploads</a></p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#sendaudio">https://core.telegram.org/bots/api#sendaudio</a></p>
     </div>
     
 
@@ -1826,8 +2131,8 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
     <div class="description">
         <p>Sends a document to the specified chat</p>
 <p>For uploading a document file, see allowed parameters here:
-https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
-<p>More info: https://core.telegram.org/bots/api#senddocument</p>
+<a href="https://github.com/request/request#multipartform-data-multipart-form-uploads">https://github.com/request/request#multipartform-data-multipart-form-uploads</a></p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#senddocument">https://core.telegram.org/bots/api#senddocument</a></p>
     </div>
     
 
@@ -2004,7 +2309,7 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
     
     <div class="description">
         <p>Sends a location to the specified chat</p>
-<p>More info: https://core.telegram.org/bots/api#sendlocation</p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#sendlocation">https://core.telegram.org/bots/api#sendlocation</a></p>
     </div>
     
 
@@ -2202,6 +2507,207 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
             
 <hr>
 <dt>
+    <h4 class="name" id="sendMessage"><span class="type-signature"></span>sendMessage(chatId, str, params)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Sends a message to the specified chat</p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#sendmessage">https://core.telegram.org/bots/api#sendmessage</a></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>chatId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID of the target chat</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Message text</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(Optional) Additional params to supply to the request</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A promise that resolves with the result once the API request has finished</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
     <h4 class="name" id="sendPhoto"><span class="type-signature"></span>sendPhoto(chatId, photo)</h4>
     
     
@@ -2212,8 +2718,8 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
     <div class="description">
         <p>Sends a photo to the specified chat</p>
 <p>For uploading a photo, see allowed parameters here:
-https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
-<p>More info: https://core.telegram.org/bots/api#sendphoto</p>
+<a href="https://github.com/request/request#multipartform-data-multipart-form-uploads">https://github.com/request/request#multipartform-data-multipart-form-uploads</a></p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#sendphoto">https://core.telegram.org/bots/api#sendphoto</a></p>
     </div>
     
 
@@ -2391,8 +2897,8 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
     <div class="description">
         <p>Sends a sticker to the specified chat</p>
 <p>For uploading a sticker (image file), see allowed parameters here:
-https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
-<p>More info: https://core.telegram.org/bots/api#sendsticker</p>
+<a href="https://github.com/request/request#multipartform-data-multipart-form-uploads">https://github.com/request/request#multipartform-data-multipart-form-uploads</a></p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#sendsticker">https://core.telegram.org/bots/api#sendsticker</a></p>
     </div>
     
 
@@ -2570,8 +3076,8 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
     <div class="description">
         <p>Sends a video to the specified chat</p>
 <p>For uploading a video file, see allowed parameters here:
-https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
-<p>More info: https://core.telegram.org/bots/api#sendvideo</p>
+<a href="https://github.com/request/request#multipartform-data-multipart-form-uploads">https://github.com/request/request#multipartform-data-multipart-form-uploads</a></p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#sendvideo">https://core.telegram.org/bots/api#sendvideo</a></p>
     </div>
     
 
@@ -2749,8 +3255,8 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
     <div class="description">
         <p>Sends a voice recording to the specified chat</p>
 <p>For uploading a voice recording (an audio file), see allowed parameters here:
-https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
-<p>More info: https://core.telegram.org/bots/api#sendvoice</p>
+<a href="https://github.com/request/request#multipartform-data-multipart-form-uploads">https://github.com/request/request#multipartform-data-multipart-form-uploads</a></p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#sendvoice">https://core.telegram.org/bots/api#sendvoice</a></p>
     </div>
     
 
@@ -2926,11 +3432,11 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
 
     
     <div class="description">
-        <p>Sets an HTTPS URL where Telegram will send updates
-Note: this WILL disable all updates/messages from the API</p>
+        <p>Sets an HTTPS URL where Telegram will send updates</p>
+<p><strong>Note:</strong> this WILL disable all updates/messages from the API</p>
 <p>For uploading the certificate, see allowed parameters here:
-https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
-<p>More info: https://core.telegram.org/bots/api#setwebhook</p>
+<a href="https://github.com/request/request#multipartform-data-multipart-form-uploads">https://github.com/request/request#multipartform-data-multipart-form-uploads</a></p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#setwebhook">https://core.telegram.org/bots/api#setwebhook</a></p>
     </div>
     
 
@@ -3141,7 +3647,7 @@ https://github.com/request/request#multipartform-data-multipart-form-uploads</p>
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
-	on 2015-12-12T23:54:15+02:00 using the <a
+	on 2015-12-13T00:04:45+02:00 using the <a
 	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
 </footer>
