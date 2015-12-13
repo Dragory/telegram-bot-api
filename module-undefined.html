@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Telegram Bot API Index</title>
+	<title>Telegram Bot API Module: undefined</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -30,16 +30,16 @@
 		<ul class="nav navbar-nav">
 			
 			<li class="dropdown">
-				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="Bot.html">Bot</a></li>
+					<li><a href="module-undefined.html">undefined</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
-				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="global.html#paramTypes">paramTypes</a></li>
+					<li><a href="Bot.html">Bot</a></li>
 				</ul>
 			</li>
 			
@@ -69,97 +69,93 @@
 		<div id="main">
 			
 
+	<h1 class="page-title">Module: undefined</h1>
+<section>
+
+<header>
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Shortcut regexes for matching specific types of parameters</p>
+<ul>
+<li>WORD matches any string without whitespace</li>
+<li>STRING matches any string without whitespace OR a double-quote enclosed string</li>
+<li>NUM matches a number (including negative numbers and decimals)</li>
+<li>REST matches anything, greedy; useful for commands where the last parameter can be any text</li>
+</ul>
+<p>All regexes include separating whitespace at the start. If you wish to not include this (for instance,
+when building a command with a dynamic name), you can write the regex manually as a string.</p></div>
+        
+
+        
+<dl class="details">
+    
+
 	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
 	
 
 
 
-
-
-
-
-
-
-
-
-	
 	
 
+	
+
+	
+
+	
+</dl>
 
 
+        
+    
+    </div>
 
+    
 
-    <section class="readme-section">
-        <article><h1>Telegram Bot API</h1><p>A simple abstraction for the Telegram Bot API with a powerful command interpreter.</p>
-<p><code>npm install --save mivir-telegram-bot-api</code></p>
-<h2>Example usage</h2><pre class="prettyprint source lang-javascript"><code>var Bot = require('mivir-telegram-bot-api').Bot;
-var param = require('mivir-telegram-bot-api').paramTypes;
+    
 
-var myBot = new Bot('your-bot-token-here');
+    
 
-// Receive a simple text message
-myBot.on('text', function(bot, message, next, done) {
-    console.log('I received a text message:', message.text);
-    next(); // Continue to other listeners
-});
+    
 
-// Respond to /echo and /echo@username
-myBot.onCommand('echo', function(bot, message, params, next, done) {
-    bot.sendMessage(message.chat.id, 'Echoing: ' + message.text);
-    done(); // Don't process other listeners for this message anymore
-});
+    
 
-// Respond to /roll &lt;number>
-myBot.onCommand('roll', [param.NUM], function(bot, message, params, next, done) {
-    // The param we defined as a number above is now accessible in params[0]
-    var rollResult = Math.floor(Math.random() * params[0]);
-    bot.sendMessage(message.chat.id, 'Roll result: ' + randomNum);
-    done();
-});
+    
 
-// Respond to both /random &lt;min> &lt;max> and /random &lt;max>
-myBot.onCommand('random', [
-    ['num1', param.NUM],
-    ['num2', param.NUM, {optional: true}]
-], function(bot, message, params, next, done) {
-    var min, max;
+    
 
-    if (params.num1 && params.num2) {
-        min = params.num1;
-        max = params.num2;
-    } else {
-        min = 0;
-        max = params.num1;
-    }
+    
 
-    var randomNum = Math.floor(Math.random() * (max - min) + min);
-    bot.sendMessage(message.chat.id, 'Random number between ' + min + ' and ' + max + ': ' + randomNum);
-    done();
-});
+    
+</article>
 
-// Respond to !whereis &lt;location> by sending coordinates
-// that show up as a map to Telegram users
-myBot.onCommand('!', 'whereis', [param.STRING], function(bot, message, params, next, done) {
-    var location = params[0],
-        coords = null;
-
-    if (location.toLowerCase() === 'london') {
-        coords = ['51.511072', '-0.127798'];
-    }
-
-    if (coords) {
-        bot.sendLocation(message.chat.id, coords[0], coords[1]);
-    } else {
-        bot.sendMessage(message.chat.id, &quot;I don't know :(&quot;);
-    }
-
-    done();
-});</code></pre><h2>Full API documentation</h2><p>For full API documentation (generated with JSDOC), see the following URL:</p>
-<h3><a href="https://dragory.github.io/telegram-bot-api/Bot.html">https://dragory.github.io/telegram-bot-api/Bot.html</a></h3></article>
-    </section>
-
-
-
+</section>
 
 
 
@@ -198,7 +194,7 @@ myBot.onCommand('!', 'whereis', [param.STRING], function(bot, message, params, n
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
-	on 2015-12-13T02:11:26+02:00 using the <a
+	on 2015-12-13T02:07:02+02:00 using the <a
 	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
 </footer>
