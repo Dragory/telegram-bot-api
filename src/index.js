@@ -5,6 +5,7 @@ import * as commandMatcher from './commandMatcher';
 import {Queue} from './queue';
 
 const DEFAULT_URL = "https://api.telegram.org/bot{token}";
+const DEFAULT_FILE_URL = "https://api.telegram.org/file/bot{token}";
 const DEFAULT_LONGPOLL_TIMEOUT = 60;
 const DEFAULT_COMMAND_TIMEOUT = 10;
 
@@ -36,6 +37,9 @@ let apiPostRequest = (url, formData = {}) => {
 
 /**
  * A JavaScript interface for using the Telegram Bot API
+ *
+ * This module also exports a `paramTypes` variable. See [global.html#paramTypes](global.html#paramTypes)
+ *
  * @class Bot
  */
 class Bot {
@@ -47,6 +51,7 @@ class Bot {
         this.token = token;
         this.options = Object.assign({}, {
             url: DEFAULT_URL,
+            fileUrl: DEFAULT_FILE_URL,
             longPollTimeout: DEFAULT_LONGPOLL_TIMEOUT,
             commandTimeout: DEFAULT_COMMAND_TIMEOUT
         }, opts);
@@ -263,7 +268,7 @@ class Bot {
      * (triggerSymbol, cmd, params, cb)
      *
      * @param {String}   triggerSymbol String to prefix the command with; defaults to '/'
-     * @param {String}   cmd           Command to match, WITHOUT the leading triggerSymbol (e.g. '/')
+     * @param {String}   cmd           Command to match, WITHOUT the leading triggerSymbol (e.g. '/'); can use regex
      * @param {Array}    params        Parameters the command accepts. Parameters can either be regex strings or the following array construct:
      *
      * `[name, regexString, options]`
@@ -276,6 +281,8 @@ class Bot {
      *
      * Parameters are matched as both `triggerSymbol+cmd` and `triggerSymbol+cmd@botUsername`.
      * For example, both of these will match: `/getLocation London` or `/getLocation@myBot London`
+     *
+     * The matched command can always be accessed via params._cmd (especially useful with dynamic commands)
      * @param {Function} cb            Listener to call when the command matches
      * @return {void}
      */
@@ -619,15 +626,39 @@ class Bot {
     getFile(fileId) {
         return this.apiRequest('getFile', {file_id: fileId});
     }
+
+    /**
+     * Returns the URL to the specified file. This URL is valid for at least 1 hour.
+     *
+     * **More info:** [https://core.telegram.org/bots/api#getfile](https://core.telegram.org/bots/api#getfile)
+     *
+     * @param  {String} filePath The file path, as returned by getFile
+     * @return {String}          The file's URL
+     */
+    getFileURL(filePath) {
+        return this.options.fileUrl.replace('{token}', this.token) + '/' + filePath;
+    }
 }
 
 export {Bot as Bot};
 
+/**
+ * Shortcut regexes for matching specific types of parameters
+ *
+ * * WORD matches any string without whitespace
+ * * STRING matches any string without whitespace OR a double-quote enclosed string
+ * * NUM matches a number (including negative numbers and decimals)
+ * * REST matches anything, greedy; useful for commands where the last parameter can be any text
+ *
+ * All regexes include separating whitespace at the start. If you wish to not include this (for instance,
+ * when building a command with a dynamic name), you can write the regex manually as a string.
+ * @type {Object}
+ */
 let paramTypes = {
     WORD: commandMatcher.MATCH_WORD,
+    STRING: commandMatcher.MATCH_STRING,
     NUM: commandMatcher.MATCH_NUM,
-    REST: commandMatcher.MATCH_REST,
-    STRING: commandMatcher.MATCH_STRING
+    REST: commandMatcher.MATCH_REST
 };
 
 export {paramTypes as paramTypes};
