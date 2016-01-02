@@ -1,6 +1,6 @@
 {
   "name": "mivir-telegram-bot-api",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A simple abstraction for the Telegram Bot API with a powerful command interpreter",
   "main": "dist/index.js",
   "scripts": {
