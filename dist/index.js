@@ -293,6 +293,7 @@ var Bot = (function () {
                 if (update.message.group_chat_created) this.callListenersOfType('group_chat_created', queue, update.message);
                 if (update.message.supergroup_chat_created) this.callListenersOfType('supergroup_chat_created', queue, update.message);
                 if (update.message.channel_chat_created) this.callListenersOfType('channel_chat_created', queue, update.message);
+                if (update.message.inline_query) this.callListenersOfType('inline_query', queue, update.message);
             }
 
             // If all the listeners finish without stopping, stop the queue here
@@ -760,6 +761,32 @@ var Bot = (function () {
         key: 'getFileURL',
         value: function getFileURL(filePath) {
             return this.options.fileUrl.replace('{token}', this.token) + '/' + filePath;
+        }
+
+        /**
+         * Sends a reply to an inline query
+         *
+         * **More info:** [https://core.telegram.org/bots/api#inline-mode](https://core.telegram.org/bots/api#inline-mode)
+         *
+         * @param  {Number} inlineQueryId ID of the inline query to reply to
+         * @param  {Array} results       Array of InlineQueryResult (see link above)
+         * @param  {Object} params       Optional extra parameters
+         * @return {Promise}             A promise that resolves with the result once the API request has finished
+         */
+
+    }, {
+        key: 'answerInlineQuery',
+        value: function answerInlineQuery(inlineQueryId, results) {
+            var params = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+            var formData = {
+                inline_query_id: inlineQueryId,
+                results: typeof results !== 'string' ? JSON.stringify(results) : results
+            };
+
+            Object.assign(formData, params);
+
+            return this.apiPostRequest('answerInlineQuery', formData);
         }
     }]);
 
