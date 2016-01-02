@@ -88,7 +88,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="Bot"><span class="type-signature"></span>new Bot()</h4>
+    <h4 class="name" id="Bot"><span class="type-signature"></span>new Bot(token, opts)</h4>
     
     
 </dt>
@@ -106,6 +106,86 @@
     
 
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Your bot's token. More information: (https://core.telegram.org/bots/api#authorizing-your-bot)[https://core.telegram.org/bots/api#authorizing-your-bot]</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(Optional) Extra options to pass to this bot instance. Available options include:</p>
+<ul>
+<li><strong>url</strong> The base URL for API requests, including {token} for where the token should go (default: &quot;https://api.telegram.org/bot{token}&quot;)</li>
+<li><strong>fileUrl</strong> The base URL for file downloads, including {token} (default: &quot;https://api.telegram.org/file/bot{token}&quot;)</li>
+<li><strong>longPollTimeout</strong> Request timeout in seconds when long-polling; set to 0 for short-polling (default: 60)</li>
+<li><strong>listenerTimeout</strong> Timeout in seconds when the next listener will automatically be called if the previous one has not called <code>next()</code> or <code>done()</code> (default: 10)</li>
+</ul></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
     
 
     
@@ -182,6 +262,207 @@
         <h3 class="subsection-title">Methods</h3>
 
         <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="answerInlineQuery"><span class="type-signature"></span>answerInlineQuery(inlineQueryId, results, params)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Sends a reply to an inline query</p>
+<p><strong>More info:</strong> <a href="https://core.telegram.org/bots/api#inline-mode">https://core.telegram.org/bots/api#inline-mode</a></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>inlineQueryId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>ID of the inline query to reply to</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>results</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Array of InlineQueryResult (see link above)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Optional extra parameters</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A promise that resolves with the result once the API request has finished</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
             
 <hr>
 <dt>
@@ -1530,6 +1811,27 @@
     
     <div class="description">
         <p>Attaches an event listener for the specified event type</p>
+<p>Available event types:</p>
+<ul>
+<li><code>'update'</code></li>
+<li><code>'text'</code></li>
+<li><code>'audio'</code></li>
+<li><code>'document'</code></li>
+<li><code>'photo'</code></li>
+<li><code>'sticker'</code></li>
+<li><code>'video'</code></li>
+<li><code>'voice'</code></li>
+<li><code>'contact'</code></li>
+<li><code>'location'</code></li>
+<li><code>'new_chat_participant'</code></li>
+<li><code>'left_chat_participant'</code></li>
+<li><code>'new_chat_title'</code></li>
+<li><code>'new_chat_photo'</code></li>
+<li><code>'delete_chat_photo'</code></li>
+<li><code>'group_chat_created'</code></li>
+<li><code>'supergroup_chat_created'</code></li>
+<li><code>'channel_chat_created'</code></li>
+</ul>
     </div>
     
 
@@ -3809,7 +4111,7 @@ For example, both of these will match: <code>/getLocation London</code> or <code
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
-	on 2015-12-13T02:11:26+02:00 using the <a
+	on 2016-01-02T05:56:51+02:00 using the <a
 	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
 </footer>
