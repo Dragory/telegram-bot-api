@@ -28,7 +28,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var DEFAULT_URL = "https://api.telegram.org/bot{token}";
 var DEFAULT_FILE_URL = "https://api.telegram.org/file/bot{token}";
 var DEFAULT_LONGPOLL_TIMEOUT = 60;
-var DEFAULT_COMMAND_TIMEOUT = 10;
+var DEFAULT_LISTENER_TIMEOUT = 10;
 
 var _apiRequest = function _apiRequest(url) {
     var params = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -65,6 +65,12 @@ var _apiPostRequest = function _apiPostRequest(url) {
  *
  * This module also exports a `paramTypes` variable. See [global.html#paramTypes](global.html#paramTypes)
  *
+ * @param {String} token Your bot's token. More information: (https://core.telegram.org/bots/api#authorizing-your-bot)[https://core.telegram.org/bots/api#authorizing-your-bot]
+ * @param {Object} opts  (Optional) Extra options to pass to this bot instance. Available options include:
+ * * **url** The base URL for API requests, including {token} for where the token should go (default: "https://api.telegram.org/bot{token}")
+ * * **fileUrl** The base URL for file downloads, including {token} (default: "https://api.telegram.org/file/bot{token}")
+ * * **longPollTimeout** Request timeout in seconds when long-polling; set to 0 for short-polling (default: 60)
+ * * **listenerTimeout** Timeout in seconds when the next listener will automatically be called if the previous one has not called `next()` or `done()` (default: 10)
  * @class Bot
  */
 
@@ -85,7 +91,7 @@ var Bot = (function () {
             url: DEFAULT_URL,
             fileUrl: DEFAULT_FILE_URL,
             longPollTimeout: DEFAULT_LONGPOLL_TIMEOUT,
-            commandTimeout: DEFAULT_COMMAND_TIMEOUT
+            listenerTimeout: DEFAULT_LISTENER_TIMEOUT
         }, opts);
 
         // Full URL with token replaced
@@ -215,6 +221,27 @@ var Bot = (function () {
 
         /**
          * Attaches an event listener for the specified event type
+         *
+         * Available event types:
+         * * `'update'`
+         * * `'text'`
+         * * `'audio'`
+         * * `'document'`
+         * * `'photo'`
+         * * `'sticker'`
+         * * `'video'`
+         * * `'voice'`
+         * * `'contact'`
+         * * `'location'`
+         * * `'new_chat_participant'`
+         * * `'left_chat_participant'`
+         * * `'new_chat_title'`
+         * * `'new_chat_photo'`
+         * * `'delete_chat_photo'`
+         * * `'group_chat_created'`
+         * * `'supergroup_chat_created'`
+         * * `'channel_chat_created'`
+         *
          * @param  {String}   event Type of event
          * @param  {Function} cb    Callback to call when the event fires
          * @return {void}
@@ -271,8 +298,8 @@ var Bot = (function () {
             // If all the listeners finish without stopping, stop the queue here
             queue.add(queue.stop.bind(queue));
 
-            if (this.options.commandTimeout > 0) {
-                setTimeout(queue.stop.bind(queue), this.options.commandTimeout * 1000);
+            if (this.options.listenerTimeout > 0) {
+                setTimeout(queue.stop.bind(queue), this.options.listenerTimeout * 1000);
             }
         }
 
@@ -450,15 +477,9 @@ var Bot = (function () {
             var params = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
             var formData = {
-                chat_id: chatId
+                chat_id: chatId,
+                photo: photo
             };
-
-            if (typeof photo === 'string') {
-                // Resend already uploaded file by file ID
-                formData.file_id = photo;
-            } else {
-                formData.photo = photo;
-            }
 
             Object.assign(formData, params);
 
@@ -485,15 +506,9 @@ var Bot = (function () {
             var params = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
             var formData = {
-                chat_id: chatId
+                chat_id: chatId,
+                audio: audio
             };
-
-            if (typeof audio === 'string') {
-                // Resend already uploaded file by file ID
-                formData.file_id = audio;
-            } else {
-                formData.audio = audio;
-            }
 
             Object.assign(formData, params);
 
@@ -520,15 +535,9 @@ var Bot = (function () {
             var params = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
             var formData = {
-                chat_id: chatId
+                chat_id: chatId,
+                document: document
             };
-
-            if (typeof document === 'string') {
-                // Resend already uploaded file by file ID
-                formData.file_id = document;
-            } else {
-                formData.document = document;
-            }
 
             Object.assign(formData, params);
 
@@ -555,15 +564,9 @@ var Bot = (function () {
             var params = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
             var formData = {
-                chat_id: chatId
+                chat_id: chatId,
+                sticker: sticker
             };
-
-            if (typeof sticker === 'string') {
-                // Resend already uploaded file by file ID
-                formData.file_id = sticker;
-            } else {
-                formData.document = sticker;
-            }
 
             Object.assign(formData, params);
 
@@ -590,15 +593,9 @@ var Bot = (function () {
             var params = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
             var formData = {
-                chat_id: chatId
+                chat_id: chatId,
+                video: video
             };
-
-            if (typeof video === 'string') {
-                // Resend already uploaded file by file ID
-                formData.file_id = video;
-            } else {
-                formData.document = video;
-            }
 
             Object.assign(formData, params);
 
@@ -625,15 +622,9 @@ var Bot = (function () {
             var params = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
             var formData = {
-                chat_id: chatId
+                chat_id: chatId,
+                voice: voice
             };
-
-            if (typeof voice === 'string') {
-                // Resend already uploaded file by file ID
-                formData.file_id = voice;
-            } else {
-                formData.document = voice;
-            }
 
             Object.assign(formData, params);
 

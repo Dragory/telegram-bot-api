@@ -7,7 +7,7 @@ import {Queue} from './queue';
 const DEFAULT_URL = "https://api.telegram.org/bot{token}";
 const DEFAULT_FILE_URL = "https://api.telegram.org/file/bot{token}";
 const DEFAULT_LONGPOLL_TIMEOUT = 60;
-const DEFAULT_COMMAND_TIMEOUT = 10;
+const DEFAULT_LISTENER_TIMEOUT = 10;
 
 let apiRequest = (url, params = {}) => {
     return new Promise((resolve) => {
@@ -40,6 +40,12 @@ let apiPostRequest = (url, formData = {}) => {
  *
  * This module also exports a `paramTypes` variable. See [global.html#paramTypes](global.html#paramTypes)
  *
+ * @param {String} token Your bot's token. More information: (https://core.telegram.org/bots/api#authorizing-your-bot)[https://core.telegram.org/bots/api#authorizing-your-bot]
+ * @param {Object} opts  (Optional) Extra options to pass to this bot instance. Available options include:
+ * * **url** The base URL for API requests, including {token} for where the token should go (default: "https://api.telegram.org/bot{token}")
+ * * **fileUrl** The base URL for file downloads, including {token} (default: "https://api.telegram.org/file/bot{token}")
+ * * **longPollTimeout** Request timeout in seconds when long-polling; set to 0 for short-polling (default: 60)
+ * * **listenerTimeout** Timeout in seconds when the next listener will automatically be called if the previous one has not called `next()` or `done()` (default: 10)
  * @class Bot
  */
 class Bot {
@@ -53,7 +59,7 @@ class Bot {
             url: DEFAULT_URL,
             fileUrl: DEFAULT_FILE_URL,
             longPollTimeout: DEFAULT_LONGPOLL_TIMEOUT,
-            commandTimeout: DEFAULT_COMMAND_TIMEOUT
+            listenerTimeout: DEFAULT_LISTENER_TIMEOUT
         }, opts);
 
         // Full URL with token replaced
@@ -168,6 +174,27 @@ class Bot {
 
     /**
      * Attaches an event listener for the specified event type
+     *
+     * Available event types:
+     * * `'update'`
+     * * `'text'`
+     * * `'audio'`
+     * * `'document'`
+     * * `'photo'`
+     * * `'sticker'`
+     * * `'video'`
+     * * `'voice'`
+     * * `'contact'`
+     * * `'location'`
+     * * `'new_chat_participant'`
+     * * `'left_chat_participant'`
+     * * `'new_chat_title'`
+     * * `'new_chat_photo'`
+     * * `'delete_chat_photo'`
+     * * `'group_chat_created'`
+     * * `'supergroup_chat_created'`
+     * * `'channel_chat_created'`
+     *
      * @param  {String}   event Type of event
      * @param  {Function} cb    Callback to call when the event fires
      * @return {void}
@@ -218,8 +245,8 @@ class Bot {
         // If all the listeners finish without stopping, stop the queue here
         queue.add(queue.stop.bind(queue));
 
-        if (this.options.commandTimeout > 0) {
-            setTimeout(queue.stop.bind(queue), this.options.commandTimeout * 1000);
+        if (this.options.listenerTimeout > 0) {
+            setTimeout(queue.stop.bind(queue), this.options.listenerTimeout * 1000);
         }
     }
 
@@ -369,15 +396,9 @@ class Bot {
      */
     sendPhoto(chatId, photo, params = {}) {
         var formData = {
-            chat_id: chatId
+            chat_id: chatId,
+            photo: photo
         };
-
-        if (typeof photo === 'string') {
-            // Resend already uploaded file by file ID
-            formData.file_id = photo;
-        } else {
-            formData.photo = photo;
-        }
 
         Object.assign(formData, params);
 
@@ -399,15 +420,9 @@ class Bot {
      */
     sendAudio(chatId, audio, params = {}) {
         var formData = {
-            chat_id: chatId
+            chat_id: chatId,
+            audio: audio
         };
-
-        if (typeof audio === 'string') {
-            // Resend already uploaded file by file ID
-            formData.file_id = audio;
-        } else {
-            formData.audio = audio;
-        }
 
         Object.assign(formData, params);
 
@@ -429,15 +444,9 @@ class Bot {
      */
     sendDocument(chatId, document, params = {}) {
         var formData = {
-            chat_id: chatId
+            chat_id: chatId,
+            document: document
         };
-
-        if (typeof document === 'string') {
-            // Resend already uploaded file by file ID
-            formData.file_id = document;
-        } else {
-            formData.document = document;
-        }
 
         Object.assign(formData, params);
 
@@ -459,15 +468,9 @@ class Bot {
      */
     sendSticker(chatId, sticker, params = {}) {
         var formData = {
-            chat_id: chatId
+            chat_id: chatId,
+            sticker: sticker
         };
-
-        if (typeof sticker === 'string') {
-            // Resend already uploaded file by file ID
-            formData.file_id = sticker;
-        } else {
-            formData.document = sticker;
-        }
 
         Object.assign(formData, params);
 
@@ -489,15 +492,9 @@ class Bot {
      */
     sendVideo(chatId, video, params = {}) {
         var formData = {
-            chat_id: chatId
+            chat_id: chatId,
+            video: video
         };
-
-        if (typeof video === 'string') {
-            // Resend already uploaded file by file ID
-            formData.file_id = video;
-        } else {
-            formData.document = video;
-        }
 
         Object.assign(formData, params);
 
@@ -519,15 +516,9 @@ class Bot {
      */
     sendVoice(chatId, voice, params = {}) {
         var formData = {
-            chat_id: chatId
+            chat_id: chatId,
+            voice: voice
         };
-
-        if (typeof voice === 'string') {
-            // Resend already uploaded file by file ID
-            formData.file_id = voice;
-        } else {
-            formData.document = voice;
-        }
 
         Object.assign(formData, params);
 
