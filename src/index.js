@@ -175,6 +175,9 @@ class Bot {
     /**
      * Attaches an event listener for the specified event type
      *
+     * The listener will be called with the following parameters:
+     * (bot, message/inline_query, next, done)
+     *
      * Available event types:
      * * `'update'`
      * * `'text'`
@@ -194,6 +197,7 @@ class Bot {
      * * `'group_chat_created'`
      * * `'supergroup_chat_created'`
      * * `'channel_chat_created'`
+     * * `'inline_query'`
      *
      * @param  {String}   event Type of event
      * @param  {Function} cb    Callback to call when the event fires
@@ -240,7 +244,7 @@ class Bot {
             if (update.message.group_chat_created) this.callListenersOfType('group_chat_created', queue, update.message);
             if (update.message.supergroup_chat_created) this.callListenersOfType('supergroup_chat_created', queue, update.message);
             if (update.message.channel_chat_created) this.callListenersOfType('channel_chat_created', queue, update.message);
-            if (update.message.inline_query) this.callListenersOfType('inline_query', queue, update.message);
+            if (update.inline_query) this.callListenersOfType('inline_query', queue, update.inline_query);
         }
 
         // If all the listeners finish without stopping, stop the queue here
