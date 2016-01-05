@@ -34,28 +34,28 @@ The parameter `message` equals to `update.message` when available, with the foll
 * `inline_query` event passes `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery))
 * `chosen_inline_result` event passes `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
 
-| Event (string) | Description |
-| - | - |
-| update | Any update |
-| text | Any update with `update.message.text` |
-| audio | Any update with `update.message.audio` ([Audio type definition](https://core.telegram.org/bots/api#audio)) |
-| document | Any update with `update.message.document` ([Document type definition](https://core.telegram.org/bots/api#document)) |
-| photo | Any update with `update.message.photo` ([Photo type definition](https://core.telegram.org/bots/api#photo)) |
-| sticker | Any update with `update.message.sticker` ([Sticker type definition](https://core.telegram.org/bots/api#sticker)) |
-| video | Any update with `update.message.video` ([Video type definition](https://core.telegram.org/bots/api#video)) |
-| voice | Any update with `update.message.voice` ([Voice type definition](https://core.telegram.org/bots/api#voice)) |
-| contact | Any update with `update.message.contact` ([Contact type definition](https://core.telegram.org/bots/api#contact)) |
-| location | Any update with `update.message.location` ([Location type definition](https://core.telegram.org/bots/api#location)) |
-| new_chat_participant | Any update with `update.message.new_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user)) |
-| left_chat_participant | Any update with `update.message.left_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user)) |
-| new_chat_title | Any update with `update.message.left_chat_participant` (String) |
-| new_chat_photo | Any update with `update.message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize)) |
-| delete_chat_photo | Any update with `update.message.delete_chat_photo` (`true`; service message) |
-| group_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
-| supergroup_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
-| channel_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
-| inline_query | Any update with `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) (Read more: [Inline mode](https://core.telegram.org/bots/api#inline-mode)) |
-| chosen_inline_result | Any update with `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult)) |
+Event (string) | Description
+---- | ----
+update | Any update
+text | Any update with `update.message.text`
+audio | Any update with `update.message.audio` ([Audio type definition](https://core.telegram.org/bots/api#audio))
+document | Any update with `update.message.document` ([Document type definition](https://core.telegram.org/bots/api#document))
+photo | Any update with `update.message.photo` ([Photo type definition](https://core.telegram.org/bots/api#photo))
+sticker | Any update with `update.message.sticker` ([Sticker type definition](https://core.telegram.org/bots/api#sticker))
+video | Any update with `update.message.video` ([Video type definition](https://core.telegram.org/bots/api#video))
+voice | Any update with `update.message.voice` ([Voice type definition](https://core.telegram.org/bots/api#voice))
+contact | Any update with `update.message.contact` ([Contact type definition](https://core.telegram.org/bots/api#contact))
+location | Any update with `update.message.location` ([Location type definition](https://core.telegram.org/bots/api#location))
+new_chat_participant | Any update with `update.message.new_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user))
+left_chat_participant | Any update with `update.message.left_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user))
+new_chat_title | Any update with `update.message.left_chat_participant` (String)
+new_chat_photo | Any update with `update.message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize))
+delete_chat_photo | Any update with `update.message.delete_chat_photo` (`true`; service message)
+group_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message)
+supergroup_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message)
+channel_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message)
+inline_query | Any update with `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) (Read more: [Inline mode](https://core.telegram.org/bots/api#inline-mode)) |
+chosen_inline_result | Any update with `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
 
 ## Available types for command parameters
 ```javascript
