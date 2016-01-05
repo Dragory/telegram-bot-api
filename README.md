@@ -29,7 +29,7 @@ These are the available events for `Bot.on(event, callback)`
 (See example for `'text'` above)
 
 The callback is called with the signature `callback(bot, message, next, done)`  
-The parameter `message` equals to `update.message` when available, with the following exceptions:
+The parameter `message` equals to `update.message` when available ([Message type definition](https://core.telegram.org/bots/api#message)), with the following exceptions:
 * `update` event always passes the whole update object ([Update type definition](https://core.telegram.org/bots/api#update))
 * `inline_query` event passes `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery))
 * `chosen_inline_result` event passes `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
@@ -51,9 +51,9 @@ left_chat_participant | Any update with `update.message.left_chat_participant` (
 new_chat_title | Any update with `update.message.left_chat_participant` (String)
 new_chat_photo | Any update with `update.message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize))
 delete_chat_photo | Any update with `update.message.delete_chat_photo` (`true`; service message)
-group_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message)
-supergroup_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message)
-channel_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message)
+group_chat_created | Any update with `update.message.group_chat_created` (`true`; service message)
+supergroup_chat_created | Any update with `update.message.supergroup_chat_created` (`true`; service message)
+channel_chat_created | Any update with `update.message.channel_chat_created` (`true`; service message)
 inline_query | Any update with `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) (Read more: [Inline mode](https://core.telegram.org/bots/api#inline-mode)) |
 chosen_inline_result | Any update with `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
 

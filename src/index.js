@@ -198,9 +198,9 @@ class Bot {
      * | new_chat_title | Any update with `update.message.left_chat_participant` (String) |
      * | new_chat_photo | Any update with `update.message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize)) |
      * | delete_chat_photo | Any update with `update.message.delete_chat_photo` (`true`; service message) |
-     * | group_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
-     * | supergroup_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
-     * | channel_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
+     * | group_chat_created | Any update with `update.message.group_chat_created` (`true`; service message) |
+     * | supergroup_chat_created | Any update with `update.message.supergroup_chat_created` (`true`; service message) |
+     * | channel_chat_created | Any update with `update.message.channel_chat_created` (`true`; service message) |
      * | inline_query | Any update with `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) (Read more: [Inline mode](https://core.telegram.org/bots/api#inline-mode)) |
      * | chosen_inline_result | Any update with `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult)) |
      *
