@@ -92,25 +92,152 @@
     <section class="readme-section">
         <article><h1>Telegram Bot API</h1><p>A simple abstraction for the Telegram Bot API with a powerful command interpreter.</p>
 <p><code>npm install --save mivir-telegram-bot-api</code></p>
-<h2>Example usage</h2><pre class="prettyprint source lang-javascript"><code>var Bot = require('mivir-telegram-bot-api').Bot;
-var param = require('mivir-telegram-bot-api').paramTypes;
+<h2>Basic usage</h2><pre class="prettyprint source lang-javascript"><code>var Bot = require('mivir-telegram-bot-api').Bot;
+var paramTypes = require('mivir-telegram-bot-api').paramTypes;
 
 var myBot = new Bot('your-bot-token-here');
 
 // Receive a simple text message
 myBot.on('text', function(bot, message, next, done) {
-    console.log('I received a text message:', message.text);
+    bot.sendMessage(message.chat.id, 'I received your message!');
     next(); // Continue to other listeners
 });
 
-// Respond to /echo and /echo@username
-myBot.onCommand('echo', function(bot, message, params, next, done) {
-    bot.sendMessage(message.chat.id, 'Echoing: ' + message.text);
+// Receive a command
+myBot.onCommand('echo', [paramTypes.REST] function(bot, message, params, next, done) {
+    bot.sendMessage(message.chat.id, 'Echoing: ' + params[0]);
     done(); // Don't process other listeners for this message anymore
-});
+});</code></pre><h2>Available events for updates</h2><p>These are the available events for <code>Bot.on(event, callback)</code><br>(See example for <code>'text'</code> above)</p>
+<p>The callback is called with the signature <code>callback(bot, message, next, done)</code><br>The parameter <code>message</code> equals to <code>update.message</code> when available (<a href="https://core.telegram.org/bots/api#message">Message type definition</a>), with the following exceptions:</p>
+<ul>
+<li><code>update</code> event always passes the whole update object (<a href="https://core.telegram.org/bots/api#update">Update type definition</a>)</li>
+<li><code>inline_query</code> event passes <code>update.inline_query</code> (<a href="https://core.telegram.org/bots/api#inlinequery">InlineQuery type definition</a>)</li>
+<li><code>chosen_inline_result</code> event passes <code>update.chosen_inline_result</code> (<a href="https://core.telegram.org/bots/api#choseninlineresult">ChosenInlineResult type definition</a>)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Event (string)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>update</td>
+<td>Any update</td>
+</tr>
+<tr>
+<td>text</td>
+<td>Any update with <code>update.message.text</code></td>
+</tr>
+<tr>
+<td>audio</td>
+<td>Any update with <code>update.message.audio</code> (<a href="https://core.telegram.org/bots/api#audio">Audio type definition</a>)</td>
+</tr>
+<tr>
+<td>document</td>
+<td>Any update with <code>update.message.document</code> (<a href="https://core.telegram.org/bots/api#document">Document type definition</a>)</td>
+</tr>
+<tr>
+<td>photo</td>
+<td>Any update with <code>update.message.photo</code> (<a href="https://core.telegram.org/bots/api#photo">Photo type definition</a>)</td>
+</tr>
+<tr>
+<td>sticker</td>
+<td>Any update with <code>update.message.sticker</code> (<a href="https://core.telegram.org/bots/api#sticker">Sticker type definition</a>)</td>
+</tr>
+<tr>
+<td>video</td>
+<td>Any update with <code>update.message.video</code> (<a href="https://core.telegram.org/bots/api#video">Video type definition</a>)</td>
+</tr>
+<tr>
+<td>voice</td>
+<td>Any update with <code>update.message.voice</code> (<a href="https://core.telegram.org/bots/api#voice">Voice type definition</a>)</td>
+</tr>
+<tr>
+<td>contact</td>
+<td>Any update with <code>update.message.contact</code> (<a href="https://core.telegram.org/bots/api#contact">Contact type definition</a>)</td>
+</tr>
+<tr>
+<td>location</td>
+<td>Any update with <code>update.message.location</code> (<a href="https://core.telegram.org/bots/api#location">Location type definition</a>)</td>
+</tr>
+<tr>
+<td>new_chat_participant</td>
+<td>Any update with <code>update.message.new_chat_participant</code> (<a href="https://core.telegram.org/bots/api#user">User type definition</a>)</td>
+</tr>
+<tr>
+<td>left_chat_participant</td>
+<td>Any update with <code>update.message.left_chat_participant</code> (<a href="https://core.telegram.org/bots/api#user">User type definition</a>)</td>
+</tr>
+<tr>
+<td>new_chat_title</td>
+<td>Any update with <code>update.message.left_chat_participant</code> (String)</td>
+</tr>
+<tr>
+<td>new_chat_photo</td>
+<td>Any update with <code>update.message.new_chat_photo</code> (Array of <a href="https://core.telegram.org/bots/api#photosize">PhotoSize, see definition</a>)</td>
+</tr>
+<tr>
+<td>delete_chat_photo</td>
+<td>Any update with <code>update.message.delete_chat_photo</code> (<code>true</code>; service message)</td>
+</tr>
+<tr>
+<td>group_chat_created</td>
+<td>Any update with <code>update.message.group_chat_created</code> (<code>true</code>; service message)</td>
+</tr>
+<tr>
+<td>supergroup_chat_created</td>
+<td>Any update with <code>update.message.supergroup_chat_created</code> (<code>true</code>; service message)</td>
+</tr>
+<tr>
+<td>channel_chat_created</td>
+<td>Any update with <code>update.message.channel_chat_created</code> (<code>true</code>; service message)</td>
+</tr>
+<tr>
+<td>inline_query</td>
+<td>Any update with <code>update.inline_query</code> (<a href="https://core.telegram.org/bots/api#inlinequery">InlineQuery type definition</a>) (Read more: <a href="https://core.telegram.org/bots/api#inline-mode">Inline mode</a>)</td>
+<td></td>
+</tr>
+<tr>
+<td>chosen_inline_result</td>
+<td>Any update with <code>update.chosen_inline_result</code> (<a href="https://core.telegram.org/bots/api#choseninlineresult">ChosenInlineResult type definition</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2>Available types for command parameters</h2><pre class="prettyprint source lang-javascript"><code>var paramTypes = require('mivir-telegram-bot-api').paramTypes</code></pre><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>paramTypes.WORD</td>
+<td>Matches any string without whitespace</td>
+</tr>
+<tr>
+<td>paramTypes.STRING</td>
+<td>Matches any string without whitespace OR a double-quote enclosed string (can have whitespace inside the quotes)</td>
+</tr>
+<tr>
+<td>paramTypes.NUM</td>
+<td>Matches a number (including negative numbers and ones with decimals)</td>
+</tr>
+<tr>
+<td>paramTypes.REST</td>
+<td>Matches anything, greedy; useful as a catch-all last parameter (see /echo example above)</td>
+</tr>
+</tbody>
+</table>
+<h2>More examples</h2><pre class="prettyprint source lang-javascript"><code>var Bot = require('mivir-telegram-bot-api').Bot;
+var paramTypes = require('mivir-telegram-bot-api').paramTypes;
+
+var myBot = new Bot('your-bot-token-here')
 
 // Respond to /roll &lt;number>
-myBot.onCommand('roll', [param.NUM], function(bot, message, params, next, done) {
+myBot.onCommand('roll', [paramTypes.NUM], function(bot, message, params, next, done) {
     // The param we defined as a number above is now accessible in params[0]
     var rollResult = Math.floor(Math.random() * params[0]);
     bot.sendMessage(message.chat.id, 'Roll result: ' + randomNum);
@@ -118,9 +245,10 @@ myBot.onCommand('roll', [param.NUM], function(bot, message, params, next, done) 
 });
 
 // Respond to both /random &lt;min> &lt;max> and /random &lt;max>
+// Uses named parameters
 myBot.onCommand('random', [
-    ['num1', param.NUM],
-    ['num2', param.NUM, {optional: true}]
+    ['num1', paramTypes.NUM],
+    ['num2', paramTypes.NUM, {optional: true}]
 ], function(bot, message, params, next, done) {
     var min, max;
 
@@ -137,9 +265,8 @@ myBot.onCommand('random', [
     done();
 });
 
-// Respond to !whereis &lt;location> by sending coordinates
-// that show up as a map to Telegram users
-myBot.onCommand('!', 'whereis', [param.STRING], function(bot, message, params, next, done) {
+// Respond to !whereis &lt;location> by sending coordinates that show up as a map to Telegram users
+myBot.onCommand('!', 'whereis', [paramTypes.STRING], function(bot, message, params, next, done) {
     var location = params[0],
         coords = null;
 
@@ -198,7 +325,7 @@ myBot.onCommand('!', 'whereis', [param.STRING], function(bot, message, params, n
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
-	on 2016-01-03T03:32:17+02:00 using the <a
+	on 2016-01-05T12:43:23+02:00 using the <a
 	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
 </footer>

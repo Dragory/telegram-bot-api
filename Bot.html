@@ -1811,30 +1811,103 @@
     
     <div class="description">
         <p>Attaches an event listener for the specified event type</p>
-<p>The listener will be called with the following parameters:
-(bot, message/inline_query, next, done)</p>
-<p>Available event types:</p>
+<p>The callback is called with the signature <code>callback(bot, message, next, done)</code>
+The parameter <code>message</code> equals to <code>update.message</code> when available, with the following exceptions:</p>
 <ul>
-<li><code>'update'</code></li>
-<li><code>'text'</code></li>
-<li><code>'audio'</code></li>
-<li><code>'document'</code></li>
-<li><code>'photo'</code></li>
-<li><code>'sticker'</code></li>
-<li><code>'video'</code></li>
-<li><code>'voice'</code></li>
-<li><code>'contact'</code></li>
-<li><code>'location'</code></li>
-<li><code>'new_chat_participant'</code></li>
-<li><code>'left_chat_participant'</code></li>
-<li><code>'new_chat_title'</code></li>
-<li><code>'new_chat_photo'</code></li>
-<li><code>'delete_chat_photo'</code></li>
-<li><code>'group_chat_created'</code></li>
-<li><code>'supergroup_chat_created'</code></li>
-<li><code>'channel_chat_created'</code></li>
-<li><code>'inline_query'</code></li>
+<li><code>update</code> event always passes the whole update object (<a href="https://core.telegram.org/bots/api#update">Update type definition</a>)</li>
+<li><code>inline_query</code> event passes <code>update.inline_query</code> (<a href="https://core.telegram.org/bots/api#inlinequery">InlineQuery type definition</a>)</li>
+<li><code>chosen_inline_result</code> event passes <code>update.chosen_inline_result</code> (<a href="https://core.telegram.org/bots/api#choseninlineresult">ChosenInlineResult type definition</a>)</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>Event (string)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>update</td>
+<td>Any update</td>
+</tr>
+<tr>
+<td>text</td>
+<td>Any update with <code>update.message.text</code></td>
+</tr>
+<tr>
+<td>audio</td>
+<td>Any update with <code>update.message.audio</code> (<a href="https://core.telegram.org/bots/api#audio">Audio type definition</a>)</td>
+</tr>
+<tr>
+<td>document</td>
+<td>Any update with <code>update.message.document</code> (<a href="https://core.telegram.org/bots/api#document">Document type definition</a>)</td>
+</tr>
+<tr>
+<td>photo</td>
+<td>Any update with <code>update.message.photo</code> (<a href="https://core.telegram.org/bots/api#photo">Photo type definition</a>)</td>
+</tr>
+<tr>
+<td>sticker</td>
+<td>Any update with <code>update.message.sticker</code> (<a href="https://core.telegram.org/bots/api#sticker">Sticker type definition</a>)</td>
+</tr>
+<tr>
+<td>video</td>
+<td>Any update with <code>update.message.video</code> (<a href="https://core.telegram.org/bots/api#video">Video type definition</a>)</td>
+</tr>
+<tr>
+<td>voice</td>
+<td>Any update with <code>update.message.voice</code> (<a href="https://core.telegram.org/bots/api#voice">Voice type definition</a>)</td>
+</tr>
+<tr>
+<td>contact</td>
+<td>Any update with <code>update.message.contact</code> (<a href="https://core.telegram.org/bots/api#contact">Contact type definition</a>)</td>
+</tr>
+<tr>
+<td>location</td>
+<td>Any update with <code>update.message.location</code> (<a href="https://core.telegram.org/bots/api#location">Location type definition</a>)</td>
+</tr>
+<tr>
+<td>new_chat_participant</td>
+<td>Any update with <code>update.message.new_chat_participant</code> (<a href="https://core.telegram.org/bots/api#user">User type definition</a>)</td>
+</tr>
+<tr>
+<td>left_chat_participant</td>
+<td>Any update with <code>update.message.left_chat_participant</code> (<a href="https://core.telegram.org/bots/api#user">User type definition</a>)</td>
+</tr>
+<tr>
+<td>new_chat_title</td>
+<td>Any update with <code>update.message.left_chat_participant</code> (String)</td>
+</tr>
+<tr>
+<td>new_chat_photo</td>
+<td>Any update with <code>update.message.new_chat_photo</code> (Array of <a href="https://core.telegram.org/bots/api#photosize">PhotoSize, see definition</a>)</td>
+</tr>
+<tr>
+<td>delete_chat_photo</td>
+<td>Any update with <code>update.message.delete_chat_photo</code> (<code>true</code>; service message)</td>
+</tr>
+<tr>
+<td>group_chat_created</td>
+<td>Any update with <code>update.message.group_chat_created</code> (<code>true</code>; service message)</td>
+</tr>
+<tr>
+<td>supergroup_chat_created</td>
+<td>Any update with <code>update.message.supergroup_chat_created</code> (<code>true</code>; service message)</td>
+</tr>
+<tr>
+<td>channel_chat_created</td>
+<td>Any update with <code>update.message.channel_chat_created</code> (<code>true</code>; service message)</td>
+</tr>
+<tr>
+<td>inline_query</td>
+<td>Any update with <code>update.inline_query</code> (<a href="https://core.telegram.org/bots/api#inlinequery">InlineQuery type definition</a>) (Read more: <a href="https://core.telegram.org/bots/api#inline-mode">Inline mode</a>)</td>
+</tr>
+<tr>
+<td>chosen_inline_result</td>
+<td>Any update with <code>update.chosen_inline_result</code> (<a href="https://core.telegram.org/bots/api#choseninlineresult">ChosenInlineResult type definition</a>)</td>
+</tr>
+</tbody>
+</table>
     </div>
     
 
@@ -4114,7 +4187,7 @@ For example, both of these will match: <code>/getLocation London</code> or <code
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
-	on 2016-01-03T03:32:17+02:00 using the <a
+	on 2016-01-05T12:43:23+02:00 using the <a
 	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
 </footer>
