@@ -176,7 +176,7 @@ class Bot {
      * Attaches an event listener for the specified event type
      *
      * The callback is called with the signature `callback(bot, message, next, done)`
-     * The parameter `message` equals to `update.message` when available, with the following exceptions:
+     * The parameter `message` equals to `update.message` when available ([Message type definition](https://core.telegram.org/bots/api#message)), with the following exceptions:
      * * `update` event always passes the whole update object ([Update type definition](https://core.telegram.org/bots/api#update))
      * * `inline_query` event passes `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery))
      * * `chosen_inline_result` event passes `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
