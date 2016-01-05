@@ -222,25 +222,34 @@ var Bot = (function () {
         /**
          * Attaches an event listener for the specified event type
          *
-         * Available event types:
-         * * `'update'`
-         * * `'text'`
-         * * `'audio'`
-         * * `'document'`
-         * * `'photo'`
-         * * `'sticker'`
-         * * `'video'`
-         * * `'voice'`
-         * * `'contact'`
-         * * `'location'`
-         * * `'new_chat_participant'`
-         * * `'left_chat_participant'`
-         * * `'new_chat_title'`
-         * * `'new_chat_photo'`
-         * * `'delete_chat_photo'`
-         * * `'group_chat_created'`
-         * * `'supergroup_chat_created'`
-         * * `'channel_chat_created'`
+         * The callback is called with the signature `callback(bot, message, next, done)`
+         * The parameter `message` equals to `update.message` when available, with the following exceptions:
+         * * `update` event always passes the whole update object ([Update type definition](https://core.telegram.org/bots/api#update))
+         * * `inline_query` event passes `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery))
+         * * `chosen_inline_result` event passes `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
+         *
+         * | Event (string) | Description |
+         * | - | - |
+         * | update | Any update |
+         * | text | Any update with `update.message.text` |
+         * | audio | Any update with `update.message.audio` ([Audio type definition](https://core.telegram.org/bots/api#audio)) |
+         * | document | Any update with `update.message.document` ([Document type definition](https://core.telegram.org/bots/api#document)) |
+         * | photo | Any update with `update.message.photo` ([Photo type definition](https://core.telegram.org/bots/api#photo)) |
+         * | sticker | Any update with `update.message.sticker` ([Sticker type definition](https://core.telegram.org/bots/api#sticker)) |
+         * | video | Any update with `update.message.video` ([Video type definition](https://core.telegram.org/bots/api#video)) |
+         * | voice | Any update with `update.message.voice` ([Voice type definition](https://core.telegram.org/bots/api#voice)) |
+         * | contact | Any update with `update.message.contact` ([Contact type definition](https://core.telegram.org/bots/api#contact)) |
+         * | location | Any update with `update.message.location` ([Location type definition](https://core.telegram.org/bots/api#location)) |
+         * | new_chat_participant | Any update with `update.message.new_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user)) |
+         * | left_chat_participant | Any update with `update.message.left_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user)) |
+         * | new_chat_title | Any update with `update.message.left_chat_participant` (String) |
+         * | new_chat_photo | Any update with `update.message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize)) |
+         * | delete_chat_photo | Any update with `update.message.delete_chat_photo` (`true`; service message) |
+         * | group_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
+         * | supergroup_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
+         * | channel_chat_created | Any update with `update.message.delete_chat_photo` (`true`; service message) |
+         * | inline_query | Any update with `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) (Read more: [Inline mode](https://core.telegram.org/bots/api#inline-mode)) |
+         * | chosen_inline_result | Any update with `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult)) |
          *
          * @param  {String}   event Type of event
          * @param  {Function} cb    Callback to call when the event fires
@@ -293,7 +302,8 @@ var Bot = (function () {
                 if (update.message.group_chat_created) this.callListenersOfType('group_chat_created', queue, update.message);
                 if (update.message.supergroup_chat_created) this.callListenersOfType('supergroup_chat_created', queue, update.message);
                 if (update.message.channel_chat_created) this.callListenersOfType('channel_chat_created', queue, update.message);
-                if (update.message.inline_query) this.callListenersOfType('inline_query', queue, update.message);
+                if (update.inline_query) this.callListenersOfType('inline_query', queue, update.inline_query);
+                if (update.chosen_inline_result) this.callListenersOfType('chosen_inline_result', queue, update.inline_query);
             }
 
             // If all the listeners finish without stopping, stop the queue here
