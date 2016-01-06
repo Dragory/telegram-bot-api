@@ -228,6 +228,7 @@ class Bot {
 
         if (update.message) {
             if (update.message.text) this.callListenersOfType('text', queue, update.message);
+            if (update.message.forward_from) this.callListenersOfType('forward', queue, update.message);
             if (update.message.audio) this.callListenersOfType('audio', queue, update.message);
             if (update.message.document) this.callListenersOfType('document', queue, update.message);
             if (update.message.photo) this.callListenersOfType('photo', queue, update.message);
@@ -244,6 +245,8 @@ class Bot {
             if (update.message.group_chat_created) this.callListenersOfType('group_chat_created', queue, update.message);
             if (update.message.supergroup_chat_created) this.callListenersOfType('supergroup_chat_created', queue, update.message);
             if (update.message.channel_chat_created) this.callListenersOfType('channel_chat_created', queue, update.message);
+            if (update.message.migrate_to_chat_id) this.callListenersOfType('migrate_to_chat_id', queue, update.message);
+            if (update.message.migrate_from_chat_id) this.callListenersOfType('migrate_from_chat_id', queue, update.message);
             if (update.inline_query) this.callListenersOfType('inline_query', queue, update.inline_query);
         }
 
