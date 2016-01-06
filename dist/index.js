@@ -229,9 +229,10 @@ var Bot = (function () {
          * * `chosen_inline_result` event passes `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
          *
          * | Event (string) | Description |
-         * | - | - |
+         * | ----- | ----- |
          * | update | Any update |
          * | text | Any update with `update.message.text` |
+         * | forward | Forwarded messages, see `forward_from` and `forward_date` [here](https://core.telegram.org/bots/api#message) |
          * | audio | Any update with `update.message.audio` ([Audio type definition](https://core.telegram.org/bots/api#audio)) |
          * | document | Any update with `update.message.document` ([Document type definition](https://core.telegram.org/bots/api#document)) |
          * | photo | Any update with `update.message.photo` ([Photo type definition](https://core.telegram.org/bots/api#photo)) |
@@ -244,10 +245,12 @@ var Bot = (function () {
          * | left_chat_participant | Any update with `update.message.left_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user)) |
          * | new_chat_title | Any update with `update.message.left_chat_participant` (String) |
          * | new_chat_photo | Any update with `update.message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize)) |
-         * | delete_chat_photo | Any update with `update.message.delete_chat_photo` (`true`; service message) |
-         * | group_chat_created | Any update with `update.message.group_chat_created` (`true`; service message) |
-         * | supergroup_chat_created | Any update with `update.message.supergroup_chat_created` (`true`; service message) |
-         * | channel_chat_created | Any update with `update.message.channel_chat_created` (`true`; service message) |
+         * | delete_chat_photo | Any update with `update.message.delete_chat_photo` |
+         * | group_chat_created | Any update with `update.message.group_chat_created` |
+         * | supergroup_chat_created | Any update with `update.message.supergroup_chat_created` |
+         * | channel_chat_created | Any update with `update.message.channel_chat_created` |
+         * | migrate_to_chat_id | Any update with `update.message.migrate_to_chat_id` |
+         * | migrate_from_chat_id | Any update with `update.message.migrate_from_chat_id` |
          * | inline_query | Any update with `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) (Read more: [Inline mode](https://core.telegram.org/bots/api#inline-mode)) |
          * | chosen_inline_result | Any update with `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult)) |
          *
@@ -286,6 +289,7 @@ var Bot = (function () {
 
             if (update.message) {
                 if (update.message.text) this.callListenersOfType('text', queue, update.message);
+                if (update.message.forward_from) this.callListenersOfType('forward', queue, update.message);
                 if (update.message.audio) this.callListenersOfType('audio', queue, update.message);
                 if (update.message.document) this.callListenersOfType('document', queue, update.message);
                 if (update.message.photo) this.callListenersOfType('photo', queue, update.message);
@@ -302,6 +306,8 @@ var Bot = (function () {
                 if (update.message.group_chat_created) this.callListenersOfType('group_chat_created', queue, update.message);
                 if (update.message.supergroup_chat_created) this.callListenersOfType('supergroup_chat_created', queue, update.message);
                 if (update.message.channel_chat_created) this.callListenersOfType('channel_chat_created', queue, update.message);
+                if (update.message.migrate_to_chat_id) this.callListenersOfType('migrate_to_chat_id', queue, update.message);
+                if (update.message.migrate_from_chat_id) this.callListenersOfType('migrate_from_chat_id', queue, update.message);
                 if (update.inline_query) this.callListenersOfType('inline_query', queue, update.inline_query);
                 if (update.chosen_inline_result) this.callListenersOfType('chosen_inline_result', queue, update.inline_query);
             }
