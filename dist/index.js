@@ -1,5 +1,7 @@
 'use strict';
 
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 Object.defineProperty(exports, "__esModule", {
@@ -98,10 +100,7 @@ var Bot = (function () {
         this.url = this.options.url.replace('{token}', this.token);
 
         // Listeners for new messages/updates
-        this.listeners = {
-            "update": [],
-            "text": []
-        };
+        this.listeners = [];
 
         // Last update ID, used as an offset for polling updates
         this.lastUpdateId = 0;
@@ -118,7 +117,15 @@ var Bot = (function () {
         }).then(function () {
             var updateHandlerQueue = new _queue.Queue();
 
-            _this.callListenersOfType('ready');
+            _this.listeners.forEach(function (_ref) {
+                var _ref2 = _slicedToArray(_ref, 2);
+
+                var type = _ref2[0];
+                var listener = _ref2[1];
+
+                if (type !== 'ready') return;
+                listener.call(null, _this);
+            });
 
             _this.pollForUpdates(function (update) {
                 // "next" and "done" will be supplied by the queue
@@ -222,38 +229,6 @@ var Bot = (function () {
         /**
          * Attaches an event listener for the specified event type
          *
-         * The callback is called with the signature `callback(bot, message, next, done)`
-         * The parameter `message` equals to `update.message` when available ([Message type definition](https://core.telegram.org/bots/api#message)), with the following exceptions:
-         * * `update` event always passes the whole update object ([Update type definition](https://core.telegram.org/bots/api#update))
-         * * `inline_query` event passes `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery))
-         * * `chosen_inline_result` event passes `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
-         *
-         * | Event (string) | Description |
-         * | ----- | ----- |
-         * | update | Any update |
-         * | text | Any update with `update.message.text` |
-         * | forward | Forwarded messages, see `forward_from` and `forward_date` [here](https://core.telegram.org/bots/api#message) |
-         * | audio | Any update with `update.message.audio` ([Audio type definition](https://core.telegram.org/bots/api#audio)) |
-         * | document | Any update with `update.message.document` ([Document type definition](https://core.telegram.org/bots/api#document)) |
-         * | photo | Any update with `update.message.photo` ([Photo type definition](https://core.telegram.org/bots/api#photo)) |
-         * | sticker | Any update with `update.message.sticker` ([Sticker type definition](https://core.telegram.org/bots/api#sticker)) |
-         * | video | Any update with `update.message.video` ([Video type definition](https://core.telegram.org/bots/api#video)) |
-         * | voice | Any update with `update.message.voice` ([Voice type definition](https://core.telegram.org/bots/api#voice)) |
-         * | contact | Any update with `update.message.contact` ([Contact type definition](https://core.telegram.org/bots/api#contact)) |
-         * | location | Any update with `update.message.location` ([Location type definition](https://core.telegram.org/bots/api#location)) |
-         * | new_chat_participant | Any update with `update.message.new_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user)) |
-         * | left_chat_participant | Any update with `update.message.left_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user)) |
-         * | new_chat_title | Any update with `update.message.left_chat_participant` (String) |
-         * | new_chat_photo | Any update with `update.message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize)) |
-         * | delete_chat_photo | Any update with `update.message.delete_chat_photo` |
-         * | group_chat_created | Any update with `update.message.group_chat_created` |
-         * | supergroup_chat_created | Any update with `update.message.supergroup_chat_created` |
-         * | channel_chat_created | Any update with `update.message.channel_chat_created` |
-         * | migrate_to_chat_id | Any update with `update.message.migrate_to_chat_id` |
-         * | migrate_from_chat_id | Any update with `update.message.migrate_from_chat_id` |
-         * | inline_query | Any update with `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) (Read more: [Inline mode](https://core.telegram.org/bots/api#inline-mode)) |
-         * | chosen_inline_result | Any update with `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult)) |
-         *
          * @param  {String}   event Type of event
          * @param  {Function} cb    Callback to call when the event fires
          * @return {void}
@@ -262,12 +237,12 @@ var Bot = (function () {
     }, {
         key: 'on',
         value: function on(event, cb) {
-            this.listeners[event] = this.listeners[event] || [];
-            this.listeners[event].push(cb);
+            this.listeners.push([event, cb]);
         }
 
         /**
          * Calls all listeners applicable for the given update
+         * 
          * @param  {Object}   update The Telegram update object
          * @param  {Function} next   Will be called after every listener has finished or the command timeout has passed
          * @return {void}
@@ -277,6 +252,8 @@ var Bot = (function () {
     }, {
         key: 'callAllListeners',
         value: function callAllListeners(update, next) {
+            var _this3 = this;
+
             // We return this queue for the main update queue
             // This ensures updates are handled in order
             var queue = new _queue.Queue();
@@ -285,82 +262,55 @@ var Bot = (function () {
                 next();
             });
 
-            this.callListenersOfType('update', queue, update);
+            var typesToCall = {
+                'update': update
+            };
 
-            if (update.message) {
-                if (update.message.text) this.callListenersOfType('text', queue, update.message);
-                if (update.message.forward_from) this.callListenersOfType('forward', queue, update.message);
-                if (update.message.audio) this.callListenersOfType('audio', queue, update.message);
-                if (update.message.document) this.callListenersOfType('document', queue, update.message);
-                if (update.message.photo) this.callListenersOfType('photo', queue, update.message);
-                if (update.message.sticker) this.callListenersOfType('sticker', queue, update.message);
-                if (update.message.video) this.callListenersOfType('video', queue, update.message);
-                if (update.message.voice) this.callListenersOfType('voice', queue, update.message);
-                if (update.message.contact) this.callListenersOfType('contact', queue, update.message);
-                if (update.message.location) this.callListenersOfType('location', queue, update.message);
-                if (update.message.new_chat_participant) this.callListenersOfType('new_chat_participant', queue, update.message);
-                if (update.message.left_chat_participant) this.callListenersOfType('left_chat_participant', queue, update.message);
-                if (update.message.new_chat_title) this.callListenersOfType('new_chat_title', queue, update.message);
-                if (update.message.new_chat_photo) this.callListenersOfType('new_chat_photo', queue, update.message);
-                if (update.message.delete_chat_photo) this.callListenersOfType('delete_chat_photo', queue, update.message);
-                if (update.message.group_chat_created) this.callListenersOfType('group_chat_created', queue, update.message);
-                if (update.message.supergroup_chat_created) this.callListenersOfType('supergroup_chat_created', queue, update.message);
-                if (update.message.channel_chat_created) this.callListenersOfType('channel_chat_created', queue, update.message);
-                if (update.message.migrate_to_chat_id) this.callListenersOfType('migrate_to_chat_id', queue, update.message);
-                if (update.message.migrate_from_chat_id) this.callListenersOfType('migrate_from_chat_id', queue, update.message);
-                if (update.inline_query) this.callListenersOfType('inline_query', queue, update.inline_query);
-                if (update.chosen_inline_result) this.callListenersOfType('chosen_inline_result', queue, update.inline_query);
-            }
+            if (update.message.text) typesToCall['text'] = update.message;
+            if (update.message.forward_from) typesToCall['forward'] = update.message;
+            if (update.message.audio) typesToCall['audio'] = update.message;
+            if (update.message.document) typesToCall['document'] = update.message;
+            if (update.message.photo) typesToCall['photo'] = update.message;
+            if (update.message.sticker) typesToCall['sticker'] = update.message;
+            if (update.message.video) typesToCall['video'] = update.message;
+            if (update.message.voice) typesToCall['voice'] = update.message;
+            if (update.message.contact) typesToCall['contact'] = update.message;
+            if (update.message.location) typesToCall['location'] = update.message;
+            if (update.message.new_chat_participant) typesToCall['new_chat_participant'] = update.message;
+            if (update.message.left_chat_participant) typesToCall['left_chat_participant'] = update.message;
+            if (update.message.new_chat_title) typesToCall['new_chat_title'] = update.message;
+            if (update.message.new_chat_photo) typesToCall['new_chat_photo'] = update.message;
+            if (update.message.delete_chat_photo) typesToCall['delete_chat_photo'] = update.message;
+            if (update.message.group_chat_created) typesToCall['group_chat_created'] = update.message;
+            if (update.message.supergroup_chat_created) typesToCall['supergroup_chat_created'] = update.message;
+            if (update.message.channel_chat_created) typesToCall['channel_chat_created'] = update.message;
+            if (update.message.migrate_to_chat_id) typesToCall['migrate_to_chat_id'] = update.message;
+            if (update.message.migrate_from_chat_id) typesToCall['migrate_from_chat_id'] = update.message;
+            if (update.inline_query) typesToCall['inline_query'] = update.inline_query;
+            if (update.chosen_inline_result) typesToCall['chosen_inline_result'] = update.chosen_inline_result;
+
+            this.listeners.forEach(function (_ref3) {
+                var _ref4 = _slicedToArray(_ref3, 2);
+
+                var type = _ref4[0];
+                var listener = _ref4[1];
+
+                if (!typesToCall[type]) return; // Ignore non-matching listeners
+
+                // queue.add will supply the next and done params
+                var call = listener.bind(null, _this3, typesToCall[type]);
+
+                queue.add(call);
+            });
 
             // If all the listeners finish without stopping, stop the queue here
             queue.add(queue.stop.bind(queue));
 
+            // Sometimes listeners forget to call next() or done()
+            // In these cases we rely on the timeout so the bot doesn't just stop responding
             if (this.options.listenerTimeout > 0) {
                 setTimeout(queue.stop.bind(queue), this.options.listenerTimeout * 1000);
             }
-        }
-
-        /**
-         * Calls all listeners of the given type with the given update
-         * The calls are added the queue `queue`, if given
-         *
-         * @param  {String} type   Type of listeners to call
-         * @param  {Queue}  queue  (Optional) Queue to add the listener calls to
-         * @param  {Object} update The Telegram update object
-         * @return {void}
-         * @access private
-         */
-
-    }, {
-        key: 'callListenersOfType',
-        value: function callListenersOfType(type, queue, update) {
-            var _this3 = this;
-
-            var list = this.listeners[type];
-            if (!list) return;
-
-            list.forEach(function (listener) {
-                // queue.add will supply the next and done params
-                var call = _this3.callListener.bind(_this3, listener, update);
-
-                if (queue) queue.add(call);else call();
-            });
-        }
-
-        /**
-         * Calls the specified listener with the given update
-         *
-         * @param  {Function}   listener Listener function to call
-         * @param  {Object}   update   The Telegram update object
-         * @param  {Function} next     A function to call when the next listener should be called
-         * @param  {Function} done     A function to call when this should be the last listener for the update
-         * @return {void}
-         */
-
-    }, {
-        key: 'callListener',
-        value: function callListener(listener, update, next, done) {
-            listener.call(null, this, update, next, done);
         }
 
         /**
