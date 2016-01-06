@@ -24,45 +24,72 @@ myBot.onCommand('echo', [paramTypes.REST] function(bot, message, params, next, d
 });
 ```
 
-## Available events for updates
-These are the available events for `Bot.on(event, callback)`  
-(See example for `'text'` above)
+## Events
+You can interact with incoming messages by registering **listeners** using `Bot.on(eventType, callback)`. The most basic event type is `'update'` which is called for every update the bot receives. You can see all available event types [below](#user-content-available-event-types).
 
-The callback is called with the signature `callback(bot, message, next, done)`  
-The parameter `message` equals to `update.message` when available ([Message type definition](https://core.telegram.org/bots/api#message)), with the following exceptions:
+`callback` is called with the signature `callback(bot, message, next, done)` where `message` equals to `update.message` when available ([Message type definition](https://core.telegram.org/bots/api#message)), with the following exceptions:
 * `update` event always passes the whole update object ([Update type definition](https://core.telegram.org/bots/api#update))
 * `inline_query` event passes `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery))
 * `chosen_inline_result` event passes `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
 
-Event (string) | Description
+Event listeners are placed in a queue and called in the order they are registered.
+Once a listener calls `next()`, the next listener is called.
+If you've used [Express](http://expressjs.com/), this may feel familiar.
+Note that if you don't want other listeners to process the update, you must still call `done()` once you're done. Not calling either, `next()` or `done()`, will result in the bot hanging until the timeout (default 10 seconds) has passed and the queue is cleared again.
+
+## Available event types
+
+Event type (string) | Description
 ---- | ----
 update | Any update
-text | Any update with `update.message.text`
-forward | Forwarded messages, see `forward_from` and `forward_date` [here](https://core.telegram.org/bots/api#message)
-audio | Any update with `update.message.audio` ([Audio type definition](https://core.telegram.org/bots/api#audio))
-document | Any update with `update.message.document` ([Document type definition](https://core.telegram.org/bots/api#document))
-photo | Any update with `update.message.photo` ([Photo type definition](https://core.telegram.org/bots/api#photo))
-sticker | Any update with `update.message.sticker` ([Sticker type definition](https://core.telegram.org/bots/api#sticker))
-video | Any update with `update.message.video` ([Video type definition](https://core.telegram.org/bots/api#video))
-voice | Any update with `update.message.voice` ([Voice type definition](https://core.telegram.org/bots/api#voice))
-contact | Any update with `update.message.contact` ([Contact type definition](https://core.telegram.org/bots/api#contact))
-location | Any update with `update.message.location` ([Location type definition](https://core.telegram.org/bots/api#location))
-new_chat_participant | Any update with `update.message.new_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user))
-left_chat_participant | Any update with `update.message.left_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user))
-new_chat_title | Any update with `update.message.left_chat_participant` (String)
-new_chat_photo | Any update with `update.message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize))
-delete_chat_photo | Any update with `update.message.delete_chat_photo`
-group_chat_created | Any update with `update.message.group_chat_created`
-supergroup_chat_created | Any update with `update.message.supergroup_chat_created`
-channel_chat_created | Any update with `update.message.channel_chat_created`
-migrate_to_chat_id | Any update with `update.message.migrate_to_chat_id`
-migrate_from_chat_id | Any update with `update.message.migrate_from_chat_id`
-inline_query | Any update with `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) (Read more: [Inline mode](https://core.telegram.org/bots/api#inline-mode)) |
-chosen_inline_result | Any update with `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
+text | Text message, has `message.text`
+forward | Forwarded message, has `message.forward_from` and `message.forward_date` ([More information](https://core.telegram.org/bots/api#message))
+audio | Playable sound file, has `message.audio` ([Audio type definition](https://core.telegram.org/bots/api#audio))
+document | Shared file, has `message.document` ([Document type definition](https://core.telegram.org/bots/api#document))
+photo | Image, has `message.photo` ([Photo type definition](https://core.telegram.org/bots/api#photo))
+sticker | Sticker, has `message.sticker` ([Sticker type definition](https://core.telegram.org/bots/api#sticker))
+video | Video, has `message.video` ([Video type definition](https://core.telegram.org/bots/api#video))
+voice | Voice message, has `message.voice` ([Voice type definition](https://core.telegram.org/bots/api#voice))
+contact | Shared contact, has `message.contact` ([Contact type definition](https://core.telegram.org/bots/api#contact))
+location | Shared location, has `message.location` ([Location type definition](https://core.telegram.org/bots/api#location))
+new_chat_participant | System message, a new user joined the chat, has `message.new_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user))
+left_chat_participant | System message, a user left the chat, has `message.left_chat_participant` ([User type definition](https://core.telegram.org/bots/api#user))
+new_chat_title | Chat title was changed, has `message.new_chat_title` (String)
+new_chat_photo | Chat photo was changed, has `message.new_chat_photo` (Array of [PhotoSize, see definition](https://core.telegram.org/bots/api#photosize))
+delete_chat_photo | Chat photo was deleted, has  `message.delete_chat_photo` (always `true`)
+group_chat_created | A group chat was created, has `message.group_chat_created` (always `true`)
+supergroup_chat_created | A supergroup chat was created, has `message.supergroup_chat_created` (always `true`)
+channel_chat_created | A channel chat was created, has `message.channel_chat_created` (always `true`)
+migrate_to_chat_id | The group has been migrated to a supergroup, has `message.migrate_to_chat_id` (Number)
+migrate_from_chat_id | The supergroup has been migrated from a group, has `message.migrate_from_chat_id` (Number)
+inline_query | An [inline query](https://core.telegram.org/bots/api#inline-mode), has `update.inline_query` ([InlineQuery type definition](https://core.telegram.org/bots/api#inlinequery)) |
+chosen_inline_result | A result was chosen for an inline query, has `update.chosen_inline_result` ([ChosenInlineResult type definition](https://core.telegram.org/bots/api#choseninlineresult))
 
-## Available types for command parameters
+## Commands
+In addition to regular events, the library features an easy to use command interpreter. Commands are registered using `Bot.onCommand` which takes a variable amount of parameters:
+
+* `onCommand(command, listener)`
+* `onCommand(command, parameters, listener)`
+* `onCommand(prefix, command, parameters, listener)`
+
+Where `command` is the desired `/command` (without a leading slash). A `prefix` can be specified to replace the default `'/'`, but do mind that Telegram only offers auto-completion for commands prefixed with a slash.
+
+`parameters` is an array of [regular expressions](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions) (as strings). The library provides several constants for common use cases (see below).  
+Note that when using a custom regex (not one of the constants), separating whitespace between parameters has to be added manually (e.g. `\s+([a-z]+)`). The first matched capture group of the regex is returned as the value of the parameter.  
+You can also name and specify additional options for a parameter by passing is as an array instead: `[name, regex(, options = {})]`. Available options include `optional` (defaults to `false`) and `stripQuotes` (defaults to `true`, strips any double or single quotes around matched parameters).
+
+If the command matches, `callback` is called with the following signature:
+
+`callback(bot, message, parameters, next, done)`
+
+This is otherwise identical to the `'text'` event callback parameters, except for the added `parameters` array. When not using named parameters, `parameters` is simply an array of the matched parameters' values. With named parameters, `parameters` is an object with parameter names as keys and matched values as values. The matched command is always available in `parameters._cmd` and, if using named parameters in conjunction with positional ones, all matched parameter values can be found in `parameters._all`.
+
+## Parameter type constants
 ```javascript
-var paramTypes = require('mivir-telegram-bot-api').paramTypes
+var paramTypes = require('mivir-telegram-bot-api').paramTypes;
+
+// Accept two parameters, first one a word and the second a number
+myBot.onCommand('example', [paramTypes.WORD, paramTypes.NUM], ...);
 ```
 
 |Type|Description|
@@ -77,7 +104,7 @@ var paramTypes = require('mivir-telegram-bot-api').paramTypes
 var Bot = require('mivir-telegram-bot-api').Bot;
 var paramTypes = require('mivir-telegram-bot-api').paramTypes;
 
-var myBot = new Bot('your-bot-token-here')
+var myBot = new Bot('your-bot-token-here');
 
 // Respond to /roll <number>
 myBot.onCommand('roll', [paramTypes.NUM], function(bot, message, params, next, done) {
