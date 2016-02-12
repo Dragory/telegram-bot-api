@@ -8,6 +8,7 @@ const DEFAULT_URL = "https://api.telegram.org/bot{token}";
 const DEFAULT_FILE_URL = "https://api.telegram.org/file/bot{token}";
 const DEFAULT_LONGPOLL_TIMEOUT = 60;
 const DEFAULT_LISTENER_TIMEOUT = 10;
+const DEFAULT_IGNORE_PRESTART_UPDATES = false;
 
 let apiRequest = (url, params = {}) => {
     return new Promise((resolve) => {
@@ -46,6 +47,7 @@ let apiPostRequest = (url, formData = {}) => {
  * * **fileUrl** The base URL for file downloads, including {token} (default: "https://api.telegram.org/file/bot{token}")
  * * **longPollTimeout** Request timeout in seconds when long-polling; set to 0 for short-polling (default: 60)
  * * **listenerTimeout** Timeout in seconds when the next listener will automatically be called if the previous one has not called `next()` or `done()` (default: 10)
+ * * **ignorePrestartUpdates** If set, updates dated earlier than the bot started will be ignored (default: true)
  * @class Bot
  */
 class Bot {
@@ -59,8 +61,11 @@ class Bot {
             url: DEFAULT_URL,
             fileUrl: DEFAULT_FILE_URL,
             longPollTimeout: DEFAULT_LONGPOLL_TIMEOUT,
-            listenerTimeout: DEFAULT_LISTENER_TIMEOUT
+            listenerTimeout: DEFAULT_LISTENER_TIMEOUT,
+            ignorePrestartUpdates: DEFAULT_IGNORE_PRESTART_UPDATES
         }, opts);
+
+        this.startTime = Date.now();
 
         // Full URL with token replaced
         this.url = this.options.url.replace('{token}', this.token);
@@ -89,6 +94,10 @@ class Bot {
             });
 
             this.pollForUpdates((update) => {
+                // Ignore prestart updates if the option is set
+                if (this.options.ignorePrestartUpdates && update.message) {
+                    if (update.message.date < Math.floor(this.startTime / 1000)) return;
+                }
                 // "next" and "done" will be supplied by the queue
                 updateHandlerQueue.add(this.callAllListeners.bind(this, update));
             });
@@ -204,28 +213,31 @@ class Bot {
             'update': update
         };
 
-        if (update.message.text)                    typesToCall['text'] = update.message;
-        if (update.message.forward_from)            typesToCall['forward'] = update.message;
-        if (update.message.audio)                   typesToCall['audio'] = update.message;
-        if (update.message.document)                typesToCall['document'] = update.message;
-        if (update.message.photo)                   typesToCall['photo'] = update.message;
-        if (update.message.sticker)                 typesToCall['sticker'] = update.message;
-        if (update.message.video)                   typesToCall['video'] = update.message;
-        if (update.message.voice)                   typesToCall['voice'] = update.message;
-        if (update.message.contact)                 typesToCall['contact'] = update.message;
-        if (update.message.location)                typesToCall['location'] = update.message;
-        if (update.message.new_chat_participant)    typesToCall['new_chat_participant'] = update.message;
-        if (update.message.left_chat_participant)   typesToCall['left_chat_participant'] = update.message;
-        if (update.message.new_chat_title)          typesToCall['new_chat_title'] = update.message;
-        if (update.message.new_chat_photo)          typesToCall['new_chat_photo'] = update.message;
-        if (update.message.delete_chat_photo)       typesToCall['delete_chat_photo'] = update.message;
-        if (update.message.group_chat_created)      typesToCall['group_chat_created'] = update.message;
-        if (update.message.supergroup_chat_created) typesToCall['supergroup_chat_created'] = update.message;
-        if (update.message.channel_chat_created)    typesToCall['channel_chat_created'] = update.message;
-        if (update.message.migrate_to_chat_id)      typesToCall['migrate_to_chat_id'] = update.message;
-        if (update.message.migrate_from_chat_id)    typesToCall['migrate_from_chat_id'] = update.message;
-        if (update.inline_query)                    typesToCall['inline_query'] = update.inline_query;
-        if (update.chosen_inline_result)            typesToCall['chosen_inline_result'] = update.chosen_inline_result;
+        if (update.message) {
+            if (update.message.text)                    typesToCall['text'] = update.message;
+            if (update.message.forward_from)            typesToCall['forward'] = update.message;
+            if (update.message.audio)                   typesToCall['audio'] = update.message;
+            if (update.message.document)                typesToCall['document'] = update.message;
+            if (update.message.photo)                   typesToCall['photo'] = update.message;
+            if (update.message.sticker)                 typesToCall['sticker'] = update.message;
+            if (update.message.video)                   typesToCall['video'] = update.message;
+            if (update.message.voice)                   typesToCall['voice'] = update.message;
+            if (update.message.contact)                 typesToCall['contact'] = update.message;
+            if (update.message.location)                typesToCall['location'] = update.message;
+            if (update.message.new_chat_participant)    typesToCall['new_chat_participant'] = update.message;
+            if (update.message.left_chat_participant)   typesToCall['left_chat_participant'] = update.message;
+            if (update.message.new_chat_title)          typesToCall['new_chat_title'] = update.message;
+            if (update.message.new_chat_photo)          typesToCall['new_chat_photo'] = update.message;
+            if (update.message.delete_chat_photo)       typesToCall['delete_chat_photo'] = update.message;
+            if (update.message.group_chat_created)      typesToCall['group_chat_created'] = update.message;
+            if (update.message.supergroup_chat_created) typesToCall['supergroup_chat_created'] = update.message;
+            if (update.message.channel_chat_created)    typesToCall['channel_chat_created'] = update.message;
+            if (update.message.migrate_to_chat_id)      typesToCall['migrate_to_chat_id'] = update.message;
+            if (update.message.migrate_from_chat_id)    typesToCall['migrate_from_chat_id'] = update.message;
+        }
+
+        if (update.inline_query)         typesToCall['inline_query'] = update.inline_query;
+        if (update.chosen_inline_result) typesToCall['chosen_inline_result'] = update.chosen_inline_result;
 
         this.listeners.forEach(([type, listener]) => {
             if (! typesToCall[type]) return; // Ignore non-matching listeners
