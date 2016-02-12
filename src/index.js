@@ -47,7 +47,7 @@ let apiPostRequest = (url, formData = {}) => {
  * * **fileUrl** The base URL for file downloads, including {token} (default: "https://api.telegram.org/file/bot{token}")
  * * **longPollTimeout** Request timeout in seconds when long-polling; set to 0 for short-polling (default: 60)
  * * **listenerTimeout** Timeout in seconds when the next listener will automatically be called if the previous one has not called `next()` or `done()` (default: 10)
- * * **ignorePrestartUpdates** If set, updates dated earlier than the bot started will be ignored (default: true)
+ * * **ignorePrestartUpdates** If set, updates dated earlier than when the bot started will be ignored (default: true)
  * @class Bot
  */
 class Bot {
