@@ -18,7 +18,7 @@ myBot.on('text', function(bot, message, next, done) {
 });
 
 // Receive a command
-myBot.onCommand('echo', [paramTypes.REST] function(bot, message, params, next, done) {
+myBot.onCommand('echo', [paramTypes.REST], function(bot, message, params, next, done) {
     bot.sendMessage(message.chat.id, 'Echoing: ' + params[0]);
     done(); // Don't process other listeners for this message anymore
 });
