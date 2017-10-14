@@ -1,5 +1,7 @@
 # Telegram Bot API
 
+**!! THIS PACKAGE IS NOT ACTIVELY MAINTAINED ANYMORE !!**
+
 A simple abstraction for the Telegram Bot API with a powerful command interpreter.
 
 `npm install --save mivir-telegram-bot-api`
